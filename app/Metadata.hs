@@ -3,7 +3,6 @@
 data PreReleaseType = Alpha | Beta | Rc deriving (Show, Eq, Ord)
 
 type Operator = String
-type Extra = String
 type VersionConstraint = (Operator, Version)
 type Requirement = (String, [VersionConstraint], Extra)
 
@@ -41,6 +40,6 @@ data Metadata = Metadata
     , requiresPython :: Maybe [VersionConstraint]
     , requiresExternals :: Maybe [String]
     , projectUrls :: Maybe [String]
-    , providesExtras :: Maybe [Extra]
+    , providesExtras :: Maybe [String]
     }
     deriving (Show, Eq)
