@@ -106,10 +106,11 @@ executable hipip
 
 test-suite hipip-test
   -- Import common warning flags.
-  import:           warnings
+  import:             warnings
+  ghc-options:        -Wall
 
   -- Base language which the package is written in.
-  default-language: Haskell2010
+  default-language:   Haskell2010
 
   -- Modules included in this executable, other than Main.
   -- other-modules:
@@ -118,13 +119,13 @@ test-suite hipip-test
   -- other-extensions:
 
   -- The interface type and version of the test suite.
-  type:             exitcode-stdio-1.0
+  type:               exitcode-stdio-1.0
 
   -- Directories containing source files.
-  hs-source-dirs:   test
+  hs-source-dirs:     test
 
   -- The entrypoint to the test suite.
-  main-is:          Spec.hs
+  main-is:            Spec.hs
 
   -- Test dependencies.
   build-depends:
@@ -134,3 +135,6 @@ test-suite hipip-test
     , hspec-contrib
     , HUnit
     , QuickCheck
+
+  other-modules:      Metadata.MetadataSpec
+  build-tool-depends: hspec-discover:hspec-discover >=2 && <3
