@@ -5,3 +5,9 @@ lint:
 
 lint-watch:
     watchexec -e cabal,hs -c -r 'just lint'
+
+test:
+    cabal test
+
+test-watch:
+    watchexec -e cabal,hs -c -r 'just test'

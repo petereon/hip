@@ -1,4 +1,4 @@
-# Revision history for hipc
+# Revision history for hipip
 
 ## 0.1.0.0 -- YYYY-mm-dd
 
