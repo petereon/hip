@@ -1,6 +1,6 @@
 lint:
-    ormolu --mode inplace $(find app -name '*.hs')
-    hlint app
+    ormolu --mode inplace $(find src app test -name '*.hs')
+    hlint $(find src app test -name '*.hs')
     cabal-fmt *.cabal -i
 
 lint-watch:
