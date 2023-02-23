@@ -19,5 +19,5 @@ spec = do
       Version (Just 1) [1, 2, 3] Nothing Nothing Nothing Nothing "" > Version Nothing [1, 2, 3] Nothing Nothing Nothing Nothing ""
     it "checks if one version with different epoch is less than another" $ do
       Version (Just 2) [1, 2, 3] Nothing Nothing Nothing Nothing "" > Version (Just 1) [1, 2, 3] Nothing Nothing Nothing Nothing ""
-    it "checks if one version with different pre is less than another" $ do
+    it "checks if one version with prerelease and another with no prerelease is less than another" $ do
       Version Nothing [1, 2, 3] (Just (Alpha, [1])) Nothing Nothing Nothing "" < Version Nothing [1, 2, 3] Nothing Nothing Nothing Nothing ""
