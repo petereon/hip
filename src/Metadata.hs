@@ -36,16 +36,19 @@ instance Ord Version where
       EQ -> case compare (release v1) (release v2) of
         LT -> LT
         GT -> GT
-        EQ -> case compare (pre v1) (pre v2) of
-          LT -> LT
-          GT -> GT
-          EQ -> case compare (post v1) (post v2) of
+        EQ -> case (pre v1, pre v2) of
+          (Nothing, Just _) -> GT
+          (Just _, Nothing) -> LT
+          (a, b) -> case compare a b of
             LT -> LT
             GT -> GT
-            EQ -> case compare (dev v1) (dev v2) of
+            EQ -> case compare (post v1) (post v2) of
               LT -> LT
               GT -> GT
-              EQ -> compare (local v1) (local v2)
+              EQ -> case compare (dev v1) (dev v2) of
+                LT -> LT
+                GT -> GT
+                EQ -> compare (local v1) (local v2)
 
 data Metadata = Metadata
   { metadataVersion :: Version,
