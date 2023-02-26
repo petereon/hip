@@ -8,6 +8,9 @@ type VersionConstraint = (Operator, Version)
 
 type Requirement = (String, [VersionConstraint], String)
 
+-- | PEP 440 compliant version data type
+--
+-- https://www.python.org/dev/peps/pep-0440/
 data Version = Version
   { epoch :: Maybe Int,
     release :: [Int],
