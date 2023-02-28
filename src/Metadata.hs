@@ -1,5 +1,6 @@
 module Metadata where
 
+import Data.Char
 import Data.List.Split (splitOn)
 import Text.Regex.PCRE
 
@@ -77,10 +78,12 @@ parseVersionFromString s =
     _ -> Nothing
 
 parsePreType :: String -> PreReleaseType
-parsePreType "a" = Alpha
-parsePreType "b" = Beta
-parsePreType "rc" = Rc
-parsePreType s = error $ "Invalid pre-release type: " ++ s
+parsePreType a
+  | map toLower a `elem` ["a", "alpha"] = Alpha
+  | map toLower a `elem` ["b", "beta"] = Beta
+  | map toLower a `elem` ["c", "rc", "preview", "pre"] = Rc
+  -- I dislike this, gotta find an elegant way to implement this through Maybe
+  | otherwise = error $ "Invalid pre-release type: " ++ a
 
 -- | PEP 566 compliant metadata data type
 --
