@@ -10,7 +10,7 @@ type Requirement = (String, [VersionConstraint], String)
 
 -- | PEP 440 compliant version data type
 --
--- https://www.python.org/dev/peps/pep-0440/
+-- - https://www.python.org/dev/peps/pep-0440/
 data Version = Version
   { epoch :: Maybe Int,
     release :: [Int],
@@ -48,11 +48,18 @@ instance Ord Version where
             EQ -> case compare (post v1) (post v2) of
               LT -> LT
               GT -> GT
-              EQ -> case compare (dev v1) (dev v2) of
-                LT -> LT
-                GT -> GT
-                EQ -> compare (local v1) (local v2)
+              EQ -> case (dev v1, dev v2) of
+                (Nothing, Just _) -> GT
+                (Just _, Nothing) -> LT
+                (a', b') -> case compare a' b' of
+                  LT -> LT
+                  GT -> GT
+                  EQ -> compare (local v1) (local v2)
 
+-- | PEP 566 compliant metadata data type
+--
+-- - https://peps.python.org/pep-0566/
+-- - https://packaging.python.org/en/latest/specifications/core-metadata/
 data Metadata = Metadata
   { metadataVersion :: Version,
     name :: String,
