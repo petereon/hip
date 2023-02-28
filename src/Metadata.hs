@@ -1,5 +1,8 @@
 module Metadata where
 
+import Data.List.Split (splitOn)
+import Text.Regex.PCRE
+
 data PreReleaseType = Alpha | Beta | Rc deriving (Show, Eq, Ord)
 
 type Operator = String
@@ -55,6 +58,29 @@ instance Ord Version where
                   LT -> LT
                   GT -> GT
                   EQ -> compare (local v1) (local v2)
+
+-- | Parse a PEP 440 compliant version string
+parseVersionFromString :: String -> Maybe Version
+parseVersionFromString s =
+  case s =~ "^(?:(\\d+)!)?(\\d+(?:\\.\\d+)*)((?:a|b|rc)\\d+)?(?:\\.post(\\d+))?(?:\\.dev(\\d+))?(?:\\+(.*))?$" :: [[String]] of
+    [[_, epoch', release', pre', post', dev', local']] ->
+      Just $
+        Version
+          { epoch = if null epoch' then Nothing else Just (read epoch'),
+            release = map read $ splitOn "." release',
+            pre = if null pre' then Nothing else Just (parsePreType $ take 2 pre', map read $ splitOn "." $ drop 2 pre'),
+            post = if null post' then Nothing else Just (read post'),
+            dev = if null dev' then Nothing else Just (read dev'),
+            local = if null local' then Nothing else Just local',
+            versionString = s
+          }
+    _ -> Nothing
+
+parsePreType :: String -> PreReleaseType
+parsePreType "a" = Alpha
+parsePreType "b" = Beta
+parsePreType "rc" = Rc
+parsePreType s = error $ "Invalid pre-release type: " ++ s
 
 -- | PEP 566 compliant metadata data type
 --

@@ -35,7 +35,7 @@ spec = do
     it "checks if a version with no local release is less than another with local release" $ do
       Version Nothing [1, 2, 3] Nothing Nothing Nothing Nothing "" < Version Nothing [1, 2, 3] Nothing Nothing Nothing (Just "local") ""
 
-  describe "Parse version froms string" $ do
+  describe "Parse version from string" $ do
     it "parses version with only release version 1.2.3" $ do
       parseVersionFromString "1.2.3" `shouldBe` Just (Version Nothing [1, 2, 3] Nothing Nothing Nothing Nothing "1.2.3")
     it "parses version with only release version 2.5.5" $ do
