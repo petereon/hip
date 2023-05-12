@@ -79,11 +79,11 @@ parseVersionFromString s =
 
 parsePreType :: String -> PreReleaseType
 parsePreType a
-  | map toLower a `elem` ["a", "alpha"] = Alpha
-  | map toLower a `elem` ["b", "beta"] = Beta
-  | map toLower a `elem` ["c", "rc", "preview", "pre"] = Rc
-  -- I dislike this, gotta find an elegant way to implement this through Maybe
+  | a' `elem` ["a", "alpha"] = Alpha
+  | a' `elem` ["b", "beta"] = Beta
+  | a' `elem` ["c", "rc", "preview", "pre"] = Rc
   | otherwise = error $ "Invalid pre-release type: " ++ a
+  where a' = map toLower a
 
 -- | PEP 566 compliant metadata data type
 --
